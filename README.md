@@ -1,3 +1,3 @@
-- Spot Rate Forecasting between USD and Euro
+- Forecasting using Fred API.
 
 
