@@ -8,7 +8,12 @@ The main goal of this project is to develop a forecasting model that can predict
 
 ### Installation
 
-To run the code in this repository, you will need to have Python installed on your machine. You can install the required libraries using pip:
+To run the code, you will need to have Python installed on your system. You can install the required dependencies using pip. Make sure to navigate to the project directory and run the following command:
+
+```txt
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate
+```
 
 ```bash
 pip install -r requirements.txt
@@ -25,3 +30,7 @@ python main.py
 ```
 
 This will execute the entire forecasting pipeline, including data loading, preprocessing, model training, and evaluation. You can modify the parameters and settings in the 'main.py' file to customize the forecasting process according to your needs. 'Series Id' must be a valid FRED series ID for the code to work properly.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more.
