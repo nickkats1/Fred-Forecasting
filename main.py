@@ -12,9 +12,6 @@ from sklearn.metrics import (
 )
 
 
-import numpy as np
-import pandas as pd
-
 
 from src.data.data_ingestion import fetch_data
 from src.data.data_transformation import split_data, transform

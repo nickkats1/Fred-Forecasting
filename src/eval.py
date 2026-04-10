@@ -50,5 +50,5 @@ def train_validate(
             train_rmse = torch.sqrt(loss_fn(y_pred_train, y_train)).item()
             val_rmse = torch.sqrt(loss_fn(y_pred_val, y_val)).item()
 
-        print(f"Epoch {epoch+1}/{epochs} | train_rmse: {train_rmse:.4f} | test_rmse: {val_rmse:.4f}")
+        print(f"Epoch {epoch+1}/{epochs} | train_rmse: {train_rmse:.4f} | val_rmse: {val_rmse:.4f}")
     
