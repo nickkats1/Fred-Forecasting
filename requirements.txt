@@ -1,3 +1,4 @@
+fredapi
 matplotlib
 numpy
 pandas
