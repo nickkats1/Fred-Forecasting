@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fred-forecasting"
+version = "0.1.0"
+description = "LSTM-based forecasting of FRED economic time series."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "Nick Katsarelas", email = "katsarelasnick3@gmail.com" }]
+keywords = ["forecasting", "fred", "lstm", "time-series", "pytorch"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "fredapi",
+    "numpy",
+    "pandas",
+    "requests",
+    "scikit-learn",
+    "torch",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "ruff",
+    "pre-commit",
+]
+
+[project.scripts]
+fred-forecast = "fred_forecasting.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/nickkats1/Fred-Forecasting"
+Repository = "https://github.com/nickkats1/Fred-Forecasting"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --cov=fred_forecasting --cov-report=term-missing"
+markers = [
+    "integration: tests that hit external services (require FRED_API_KEY).",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["fred_forecasting"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+# Exploratory notebooks are kept as-is and not linted/formatted.
+extend-exclude = ["notebooks", "*.ipynb"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific rules
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["fred_forecasting"]

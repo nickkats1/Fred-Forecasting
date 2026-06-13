@@ -1,0 +1,14 @@
+services:
+  forecast:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fred-forecasting:latest
+    environment:
+      # Provide your FRED API key via a local .env file (see .env.example).
+      FRED_API_KEY: ${FRED_API_KEY:?set FRED_API_KEY in your environment or .env}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    # Override the default args as needed.
+    command: ["--series-id", "DEXUSEU", "--epochs", "50", "--output-csv", "/data/predictions.csv"]
+    volumes:
+      - ./data:/data

@@ -1,0 +1,12 @@
+# Development and testing tools. Install with: pip install -r requirements-dev.txt
+-r requirements.txt
+pre-commit
+pytest>=8
+pytest-cov
+ruff
+
+# Used by the exploratory notebooks in notebooks/.
+matplotlib
+seaborn
+statsmodels
+xgboost-cpu

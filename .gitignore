@@ -8,7 +8,8 @@ __pycache__/
 *.egg-info/
 
 
-# Virtual Environments
+# Environment files / secrets
+.env
 *.env
 .venv
 env/
@@ -21,6 +22,18 @@ defaults/
 # Jupyter Notebook stuff
 .virtual_documents/
 .ipynb_checkpoints/
+
+# Test / coverage / lint caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Pipeline output
+data/
+*.csv
 
 # Ignore logs
 *.log
