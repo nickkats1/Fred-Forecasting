@@ -25,14 +25,14 @@ defaults/
 
 # Test / coverage / lint caches
 .pytest_cache/
-.ruff_cache/
 .coverage
 .coverage.*
 htmlcov/
 coverage.xml
 
 # Pipeline output
-data/
+/data/*
+!/data/.gitkeep
 *.csv
 
 # Ignore logs
@@ -63,7 +63,7 @@ dist/
 **/debug/*
 
 
-# C compiler stuff
+# Compilers etc.
 *.c
 *.so
 *.spec
@@ -76,5 +76,3 @@ Desktop.ini
 
 *.ini.bak
 *.ini
-
-

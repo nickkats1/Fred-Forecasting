@@ -1,5 +1,3 @@
-"""LSTM model for univariate time-series forecasting."""
-
 import torch
 from torch import nn
 
@@ -16,10 +14,10 @@ class LSTM(nn.Module):
 
     def __init__(
         self,
-        input_size: int = 1,
-        hidden_size: int = 128,
-        num_layers: int = 2,
-        output_size: int = 1,
+        input_size: int,
+        hidden_size: int,
+        num_layers: int,
+        output_size: int,
     ):
         super().__init__()
         self.input_size = input_size

@@ -1,8 +1,0 @@
-# Runtime dependencies for the forecasting pipeline.
-# For an editable install with dev tooling, prefer: pip install -e ".[dev]"
-fredapi
-numpy
-pandas
-requests
-scikit-learn
-torch

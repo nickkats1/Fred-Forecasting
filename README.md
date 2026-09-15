@@ -12,22 +12,13 @@ chronologically, scales it, builds sliding-window sequences, trains an LSTM, and
 reports validation metrics (R², RMSE, MAE, MAPE) alongside an actual-vs-predicted
 table.
 
-## Project layout
+## Introduction
 
-```
-src/fred_forecasting/
-├── cli.py            # `fred-forecast` command-line entry point
-├── config.py         # Settings (env- and CLI-configurable)
-├── logging_config.py # structured logging
-├── metrics.py        # R²/RMSE/MAE/MAPE
-├── pipeline.py       # end-to-end orchestration
-├── training.py       # train/validate loop + seeding
-├── windowing.py      # sliding-window + tensor conversion
-├── data/             # FRED ingestion + scaling/splitting
-└── models/lstm.py    # LSTM model
-tests/                # pytest suite (FRED API mocked)
-notebooks/            # exploratory analysis (ARIMA, LSTM, tree models)
-```
+This codebase consists of various time series methods for Forecasting data from FRED. Methods used for forecasting the data include: LSTM, ARIMA, and XGBoost. All of this requires a fred api key. This is very simple codebase to illustrate using data from Fred. Which has very good data that has been managed well for years.
+
+## NoteBooks Examples
+- **LSTM Fed Funds Rate**: [lstm-fed-funds](/home/nick/github-projects/Fred-Forecasting/notebooks/fed-funds/_fed-funds-lstm.ipynb)
+- **Arima Fed Funds**: [arima-fed-funds](/home/nick/github-projects/Fred-Forecasting/notebooks/fed-funds/_fed-funds-arima.ipynb)
 
 ## Installation
 
@@ -38,80 +29,40 @@ is required to fetch data (it is free).
 python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
 
-# Install with CPU PyTorch (recommended for most users):
+
 pip install --index-url https://download.pytorch.org/whl/cpu torch
 pip install -e ".[dev]"           # editable install + dev tooling
 ```
 
-Then provide your API key (copy `.env.example` to `.env`, or export it):
+Then export your API key:
 
 ```bash
 export FRED_API_KEY=your_key_here
 ```
 
-## Usage
 
-Run the pipeline via the installed console script:
+### Choosing a series ID
 
-```bash
-fred-forecast --series-id DEXUSEU --epochs 100 --output-csv predictions.csv
-```
+Any FRED series works. The series ID is the last part of a series URL —
+<https://fred.stlouisfed.org/series/DEXUSEU> → `DEXUSEU`.
 
-Or the equivalent entry point:
+Browse <https://fred.stlouisfed.org/> to find one. Some popular series:
 
-```bash
-python main.py --series-id FEDFUNDS --window-size 20
-```
-
-All options (see `fred-forecast --help`):
-
-| Flag | Default | Description |
+| Series ID | Series | Frequency |
 | --- | --- | --- |
-| `--series-id` | `DEXUSEU` | A valid FRED series ID |
-| `--train-size` | `0.80` | Train fraction, in (0, 1) |
-| `--window-size` | `20` | Input sequence length |
-| `--hidden-size` | `128` | LSTM hidden state size |
-| `--num-layers` | `2` | Stacked LSTM layers |
-| `--learning-rate` | `0.001` | Adam learning rate |
-| `--epochs` | `100` | Training epochs |
-| `--seed` | `42` | Random seed |
-| `--output-csv` | _(none)_ | Write actual-vs-predicted CSV |
+| `DEXUSEU` | U.S. / Euro foreign exchange rate | Daily |
+| `DGS10` | 10-year Treasury constant maturity rate | Daily |
+| `SP500` | S&P 500 index | Daily |
+| `UNRATE` | Unemployment rate | Monthly |
+| `CPIAUCSL` | CPI, all urban consumers | Monthly |
+| `FEDFUNDS` | Effective federal funds rate | Monthly |
+| `PAYEMS` | All employees, total nonfarm | Monthly |
+| `GDP` | Gross domestic product | Quarterly |
 
-Any flag can also be set via environment variables (`FRED_SERIES_ID`,
-`FRED_EPOCHS`, …); CLI flags take precedence. See `.env.example`.
+If the series ID does not exist, `fred-forecast` prints a one-line error and
+exits with code 2 (as it does when `FRED_API_KEY` is not set).
 
-## Docker
 
-```bash
-docker build -t fred-forecasting .
-docker run --rm -e FRED_API_KEY=$FRED_API_KEY \
-  -v "$PWD/data:/data" \
-  fred-forecasting --series-id DEXUSEU --epochs 50 --output-csv /data/predictions.csv
-```
-
-Or with Compose (reads `FRED_API_KEY` from your environment / `.env`):
-
-```bash
-docker compose run --rm forecast
-```
-
-## Development
-
-```bash
-pytest                 # run the test suite with coverage
-ruff check .           # lint
-ruff format .          # format
-pre-commit install     # enable git hooks (lint/format on commit)
-```
-
-The test suite mocks the FRED API, so no network or API key is needed to run it.
-
-## Notebooks
-
-`notebooks/fed-funds/` contains exploratory analyses (ARIMA, LSTM, and
-tree-based models) used during development. They are not part of the packaged
-pipeline; install the dev/notebook extras (`pip install -r requirements-dev.txt`)
-to run them.
 
 ## License
 
